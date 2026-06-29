@@ -61,26 +61,26 @@
             <span class="author-block"><a href="#">Daniel Lusk</a><sup>3</sup>,</span>
             <span class="author-block"><a href="#">Kilian Gerberding</a><sup>3</sup>,</span>
             <span class="author-block"><a href="#">Janusch Vajna-Jehle</a><sup>3</sup>,</span>
-            <br><span class="author-block"><a href="#">Tuan-Anh Vu</a><sup>4</sup>,</span>
+            <span class="author-block"><a href="#">Tuan-Anh Vu</a><sup>4</sup>,</span>
             <span class="author-block"><a href="#">Duc Viet Le</a><sup>5</sup>,</span>
             <span class="author-block"><a href="#">Tu Vo</a><sup>6</sup>,</span>
             <span class="author-block"><a href="#">Phi Le Nguyen</a><sup>7</sup>,</span>
-            <br><span class="author-block"><a href="#">Yasutomo Kawanishi</a><sup>8,2,1</sup>,</span>
+            <span class="author-block"><a href="#">Yasutomo Kawanishi</a><sup>8,2,1</sup>,</span>
             <span class="author-block"><a href="#">Takahiro Komamizu</a><sup>1</sup>,</span>
             <span class="author-block"><a href="#">Ichiro Ide</a><sup>1</sup>,</span>
             <span class="author-block"><a href="#">Julian Frey</a><sup>3</sup>,</span>
             <span class="author-block"><a href="#">Teja Kattenborn</a><sup>3</sup></span>
           </div>
 
-          <div class="is-size-6 affil-block">
-            <sup>1</sup>Nagoya University &ensp;
-            <sup>2</sup>RIKEN &ensp;
-            <sup>3</sup>University of Freiburg &ensp;
-            <sup>4</sup>UCLA &ensp;
-            <sup>5</sup>University of Twente &ensp;
-            <br><sup>6</sup>KC Machine Learning Lab &ensp;
-            <sup>7</sup>HUST &ensp;
-            <sup>8</sup>Ritsumeikan University
+          <div class="affil-block">
+            <span class="affil-item"><sup>1</sup>Nagoya University</span>
+            <span class="affil-item"><sup>2</sup>RIKEN</span>
+            <span class="affil-item"><sup>3</sup>University of Freiburg</span>
+            <span class="affil-item"><sup>4</sup>UCLA</span>
+            <span class="affil-item"><sup>5</sup>University of Twente</span>
+            <span class="affil-item"><sup>6</sup>KC Machine Learning Lab</span>
+            <span class="affil-item"><sup>7</sup>HUST</span>
+            <span class="affil-item"><sup>8</sup>Ritsumeikan University</span>
           </div>
 
           <div class="publication-links" style="margin-top:1.5rem;">
@@ -133,9 +133,9 @@
       </figure>
       <h2 class="subtitle has-text-centered" style="margin-top:1.2rem;">
         <b>SelectAnyTree</b> segments any individual tree in a 3D forest LiDAR scan with a user's click.
-        <br>Left: full scene overview with three highlighted trees.
+        Left: full scene overview with three highlighted trees.
         Right: zoom panels showing predicted masks.
-        <br>The scene is encoded <em>once</em>; each subsequent click is a cheap query.
+        The scene is encoded <em>once</em>; each subsequent click is a cheap query.
       </h2>
     </div>
   </div>
@@ -193,14 +193,13 @@
     <p class="has-text-centered has-text-grey" style="margin-bottom:0.6rem;">
       Pre-computed from the test set. Each frame shows <b>top-down view (left)</b> and <b>side view (right)</b>.
     </p>
-    <div class="click-legend has-text-centered" style="margin-bottom:2rem;">
-      <span class="tag is-warning is-light">★ positive click</span>
-      <span class="tag is-danger is-light">✕ negative click</span>
-      <span class="tag" style="background:#f5e0c0;">▲ CHM treetop (free)</span>
-      &ensp;
-      <span class="tag" style="background:#2db845;color:#fff;">■ true positive</span>
-      <span class="tag is-danger">■ false positive</span>
-      <span class="tag is-link">■ false negative</span>
+    <div class="click-legend" style="margin-bottom:2rem;">
+      <span class="legend-item"><span class="legend-dot" style="background:#ffd700;border:1px solid #888;">★</span> Positive click</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#ff4444;color:#fff;">✕</span> Negative click</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#f5a623;">▲</span> CHM treetop</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#2db845;"></span> True positive</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#dc3535;"></span> False positive</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#3371df;"></span> False negative</span>
     </div>
 
     <!-- Single-scene GIFs -->
@@ -315,30 +314,22 @@
     <h2 class="title is-3 has-text-centered">Results</h2>
 
     <!-- Key stats -->
-    <div class="columns is-centered has-text-centered" style="margin-bottom:2.5rem;">
-      <div class="column">
-        <div class="result-stat">
-          <span class="result-number">78.2</span>
-          <span class="result-label">IoU @ 1 click</span>
-        </div>
+    <div class="stats-grid">
+      <div class="result-stat">
+        <span class="result-number">78.2</span>
+        <span class="result-label">IoU @ 1 click</span>
       </div>
-      <div class="column">
-        <div class="result-stat">
-          <span class="result-number">+24.8</span>
-          <span class="result-label">pts above best baseline</span>
-        </div>
+      <div class="result-stat">
+        <span class="result-number">+24.8</span>
+        <span class="result-label">pts above best baseline</span>
       </div>
-      <div class="column">
-        <div class="result-stat">
-          <span class="result-number">#1</span>
-          <span class="result-label">fewest clicks at every IoU target</span>
-        </div>
+      <div class="result-stat">
+        <span class="result-number">#1</span>
+        <span class="result-label">fewest clicks at every IoU target</span>
       </div>
-      <div class="column">
-        <div class="result-stat">
-          <span class="result-number">19.4M</span>
-          <span class="result-label">parameters (16× smaller than Point-SAM)</span>
-        </div>
+      <div class="result-stat">
+        <span class="result-number">19.4M</span>
+        <span class="result-label">params — 16× smaller than Point-SAM</span>
       </div>
     </div>
 
@@ -348,20 +339,24 @@
       FOR-instanceV2 test set (in-distribution) and LAUTx (cross-dataset generalization, held-out).
       <b>Bold</b> = best, <u>underline</u> = second best.
     </p>
-    <figure class="image table-fig">
-      <img src="static/images/Table-1.png" style="width:87%; margin:0 auto;"
-           alt="Interactive segmentation comparison: IoU@Clicks and NoC@IoU on FOR-instanceV2 and LAUTx" />
-    </figure>
+    <div class="table-scroll-wrap">
+      <figure class="image table-fig">
+        <img src="static/images/Table-1.png" style="width:90%;margin:0 auto;display:block;"
+             alt="Interactive segmentation comparison: IoU@Clicks and NoC@IoU on FOR-instanceV2 and LAUTx" />
+      </figure>
+    </div>
 
     <!-- ── Table 2: Efficiency ───────────────────────────────────────────── -->
     <h3 class="title is-4 has-text-centered" style="margin-top:3rem;">Model Size &amp; Inference Efficiency</h3>
     <p class="table-caption">
       GPU wall-clock time (ms) per scene for a <em>k</em>-click session on the FOR-instanceV2 test set.
     </p>
-    <figure class="image table-fig">
-      <img src="static/images/Table-2.png" style="width:95%; margin:0 auto;"
-           alt="Model size and inference efficiency comparison" />
-    </figure>
+    <div class="table-scroll-wrap">
+      <figure class="image table-fig">
+        <img src="static/images/Table-2.png" style="width:98%;margin:0 auto;display:block;"
+             alt="Model size and inference efficiency comparison" />
+      </figure>
+    </div>
 
     <!-- ── Qualitative: single-click comparison ──────────────────────────── -->
     <h3 class="title is-4 has-text-centered" style="margin-top:3rem;">Qualitative Results</h3>
