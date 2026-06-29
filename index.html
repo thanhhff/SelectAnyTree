@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SelectAnyTree — Promptable Tree Segmentation</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/css/index.css" />
+</head>
+<body>
+
+<!-- ─── HERO ──────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+
+          <h1 class="title is-1 publication-title">🌲 SelectAnyTree</h1>
+          <h2 class="subtitle is-3 publication-subtitle">
+            A Promptable Instance Segmentation Model for<br>3D Forest LiDAR Point Clouds
+          </h2>
+
+          <div class="publication-authors">
+            <span class="author-block"><a href="#">Trung Thanh Nguyen</a><sup>1,2</sup>,</span>
+            <span class="author-block"><a href="#">Daniel Lusk</a><sup>3</sup>,</span>
+            <span class="author-block"><a href="#">Kilian Gerberding</a><sup>3</sup>,</span>
+            <span class="author-block"><a href="#">Janusch Vajna-Jehle</a><sup>3</sup>,</span>
+            <br><span class="author-block"><a href="#">Tuan-Anh Vu</a><sup>4</sup>,</span>
+            <span class="author-block"><a href="#">Duc Viet Le</a><sup>5</sup>,</span>
+            <span class="author-block"><a href="#">Tu Vo</a><sup>6</sup>,</span>
+            <span class="author-block"><a href="#">Phi Le Nguyen</a><sup>7</sup>,</span>
+            <br><span class="author-block"><a href="#">Yasutomo Kawanishi</a><sup>8,2,1</sup>,</span>
+            <span class="author-block"><a href="#">Takahiro Komamizu</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="#">Ichiro Ide</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="#">Julian Frey</a><sup>3</sup>,</span>
+            <span class="author-block"><a href="#">Teja Kattenborn</a><sup>3</sup></span>
+          </div>
+
+          <div class="is-size-6 affil-block">
+            <sup>1</sup>Nagoya University &ensp;
+            <sup>2</sup>RIKEN &ensp;
+            <sup>3</sup>University of Freiburg &ensp;
+            <sup>4</sup>UCLA &ensp;
+            <sup>5</sup>University of Twente &ensp;
+            <br><sup>6</sup>KC Machine Learning Lab &ensp;
+            <sup>7</sup>HUST &ensp;
+            <sup>8</sup>Ritsumeikan University
+          </div>
+
+          <div class="publication-links" style="margin-top:1.5rem;">
+            <span class="link-block">
+              <a href="https://arxiv.org/abs/2606.27491" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fas fa-newspaper"></i></span>
+                <span>arXiv</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="https://arxiv.org/pdf/2606.27491" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                <span>Paper</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="https://github.com/thanhhff/SelectAnyTree" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fab fa-github"></i></span>
+                <span>Code</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="#demo" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fas fa-play-circle"></i></span>
+                <span>Demo</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="https://3dtrees.earth" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fas fa-database"></i></span>
+                <span>Data</span>
+              </a>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── TEASER ────────────────────────────────────────────────────────────── -->
+<section class="hero teaser">
+  <div class="container is-max-widescreen">
+    <div class="hero-body">
+      <figure class="teaser-fig">
+        <img src="static/images/teaser.png"
+             alt="SelectAnyTree teaser — scene overview with three selected trees, top-down and side view" />
+      </figure>
+      <h2 class="subtitle has-text-centered" style="margin-top:1.2rem;">
+        <b>SelectAnyTree</b> segments any individual tree in a 3D forest LiDAR scan with a user's click.
+        <br>Left: full scene overview with three highlighted trees.
+        Right: zoom panels showing predicted masks.
+        <br>The scene is encoded <em>once</em>; each subsequent click is a cheap query.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── ABSTRACT ──────────────────────────────────────────────────────────── -->
+<section class="section" style="background-color:#f5f5f5;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Automated instance segmentation of forest LiDAR point clouds is
+            increasingly critical as forest monitoring moves toward scalable,
+            detailed, 3D measurement. Yet progress is constrained by label
+            scarcity for tree instances: a single hectare can hold millions of
+            points and hundreds of overlapping, complex crowns, making manual
+            annotation laborious and error-prone.
+          </p>
+          <p>
+            Inspired by the promptable paradigm of foundation segmentation
+            models, we propose <b>SelectAnyTree</b>, a promptable instance
+            segmentation model that delineates any individual tree in a 3D
+            forest point cloud from a few clicks. SelectAnyTree introduces two
+            key components: a <em>click-to-query prompt encoder</em> and a
+            <em>Canopy Height Model (CHM)-guided first prompt</em>. The former
+            turns each click into a single content query, encoding its 3D
+            position and positive/negative polarity together with a pooled
+            local backbone feature. The CHM provides treetops as a
+            geometry- and ecologically-guided first prompt without any user input.
+          </p>
+          <p>
+            We evaluate SelectAnyTree across seven diverse forest regions and
+            an independent held-out test dataset, demonstrating strong
+            generalization beyond the training domains. It segments a target
+            tree to <b>78.2 IoU</b> from a single click —
+            <b>24.8 points above the strongest promptable baseline</b> —
+            and reaches every accuracy target with the fewest clicks, while
+            using far fewer parameters and less inference time than prior
+            promptable models.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── DEMO ───────────────────────────────────────────────────────────────── -->
+<section class="section" id="demo">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Demo</h2>
+    <p class="has-text-centered has-text-grey" style="margin-bottom:0.6rem;">
+      Pre-computed from the test set. Each frame shows <b>top-down view (left)</b> and <b>side view (right)</b>.
+    </p>
+    <div class="click-legend has-text-centered" style="margin-bottom:2rem;">
+      <span class="tag is-warning is-light">★ positive click</span>
+      <span class="tag is-danger is-light">✕ negative click</span>
+      <span class="tag" style="background:#f5e0c0;">▲ CHM treetop (free)</span>
+      &ensp;
+      <span class="tag" style="background:#2db845;color:#fff;">■ true positive</span>
+      <span class="tag is-danger">■ false positive</span>
+      <span class="tag is-link">■ false negative</span>
+    </div>
+
+    <!-- Single-scene GIFs -->
+    <div class="columns is-centered demo-gif-pair">
+      <div class="column is-half has-text-centered">
+        <h3 class="title is-5">Norway (NIBIO)</h3>
+        <figure class="demo-gif-wrap">
+          <img src="static/images/demo_nibio.gif"
+               alt="SelectAnyTree — Norway NIBIO, click-by-click segmentation" />
+        </figure>
+      </div>
+      <div class="column is-half has-text-centered">
+        <h3 class="title is-5">Australia (BlueCat)</h3>
+        <figure class="demo-gif-wrap">
+          <img src="static/images/demo_bluecat.gif"
+               alt="SelectAnyTree — Australia BlueCat, click-by-click segmentation" />
+        </figure>
+      </div>
+    </div>
+    <div class="columns is-centered demo-gif-pair">
+      <div class="column is-half has-text-centered">
+        <h3 class="title is-5">Czech Republic (CULS)</h3>
+        <figure class="demo-gif-wrap">
+          <img src="static/images/demo_culs.gif"
+               alt="SelectAnyTree — Czech Republic CULS, click-by-click segmentation" />
+        </figure>
+      </div>
+      <div class="column is-half has-text-centered">
+        <h3 class="title is-5">New Zealand (SCION)</h3>
+        <figure class="demo-gif-wrap">
+          <img src="static/images/demo_scion.gif"
+               alt="SelectAnyTree — New Zealand SCION, click-by-click segmentation" />
+        </figure>
+      </div>
+    </div>
+
+    <!-- Comparison GIF -->
+    <div style="margin-top:3rem;">
+      <h3 class="title is-4 has-text-centered">Point-SAM vs. SelectAnyTree</h3>
+      <p class="has-text-centered has-text-grey" style="margin-bottom:1.5rem;">
+        Same scene, same click budget.
+      </p>
+      <div class="columns is-centered demo-gif-pair demo-compare-pair">
+        <div class="column is-half has-text-centered">
+          <p class="demo-method-label">Point-SAM</p>
+          <figure class="demo-gif-wrap">
+            <img src="static/images/demo_pointsam.gif"
+                 alt="Point-SAM comparison" />
+          </figure>
+        </div>
+        <div class="column is-half has-text-centered">
+          <p class="demo-method-label ours-label">SelectAnyTree <span class="tag is-success is-light" style="vertical-align:middle;font-size:0.7rem;">Ours</span></p>
+          <figure class="demo-gif-wrap ours-border">
+            <img src="static/images/demo_sat_compare.gif"
+                 alt="SelectAnyTree comparison" />
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── METHOD ────────────────────────────────────────────────────────────── -->
+<section class="section" style="background-color:#f5f5f5;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+
+    <div class="content has-text-justified">
+      <p>
+        SelectAnyTree turns a structure-aware forest backbone into a
+        promptable instance segmentation model through four stages:
+      </p>
+      <ol>
+        <li>
+          <b>Scene encoding (once).</b> The point cloud is voxelized and processed by a
+          sparse MambaForest encoder to produce per-voxel features — cached and
+          <em>reused</em> for all subsequent clicks.
+        </li>
+        <li>
+          <b>Prompt encoder.</b> Each click set is mapped to a single content query via
+          cylinder-pooled backbone features, random-Fourier positional encoding, and
+          signed aggregation of click polarities.
+        </li>
+        <li>
+          <b>State-space query decoder.</b> The query is decoded into a voxel-resolution
+          binary mask using a Mamba-based decoder that captures long-range context in
+          <em>linear</em> time — essential for large-scale forest scenes.
+        </li>
+        <li>
+          <b>CHM-guided first prompt.</b> Canopy Height Model treetop positions provide
+          geometry-guided "free" first prompts, bridging fully-automatic and interactive
+          segmentation.
+        </li>
+      </ol>
+    </div>
+
+    <figure class="image method-fig" style="margin-top:1.5rem;">
+      <img src="static/images/model.png" alt="SelectAnyTree architecture" />
+    </figure>
+    <p class="has-text-grey is-size-7 has-text-centered" style="margin-top:0.5rem;">
+      SelectAnyTree architecture. Scene encoding is performed once per plot; prompt encoding
+      and decoding are repeated per click set.
+    </p>
+  </div>
+</section>
+
+
+<!-- ─── RESULTS ───────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Results</h2>
+
+    <!-- Key stats -->
+    <div class="columns is-centered has-text-centered" style="margin-bottom:2.5rem;">
+      <div class="column">
+        <div class="result-stat">
+          <span class="result-number">78.2</span>
+          <span class="result-label">IoU @ 1 click</span>
+        </div>
+      </div>
+      <div class="column">
+        <div class="result-stat">
+          <span class="result-number">+24.8</span>
+          <span class="result-label">pts above best baseline</span>
+        </div>
+      </div>
+      <div class="column">
+        <div class="result-stat">
+          <span class="result-number">#1</span>
+          <span class="result-label">fewest clicks at every IoU target</span>
+        </div>
+      </div>
+      <div class="column">
+        <div class="result-stat">
+          <span class="result-number">19.4M</span>
+          <span class="result-label">parameters (16× smaller than Point-SAM)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Table 1: Interactive segmentation ────────────────────────────── -->
+    <h3 class="title is-4 has-text-centered">Interactive Segmentation</h3>
+    <p class="table-caption">
+      FOR-instanceV2 test set (in-distribution) and LAUTx (cross-dataset generalization, held-out).
+      <b>Bold</b> = best, <u>underline</u> = second best.
+    </p>
+    <figure class="image table-fig">
+      <img src="static/images/Table-1.png" style="width:87%; margin:0 auto;"
+           alt="Interactive segmentation comparison: IoU@Clicks and NoC@IoU on FOR-instanceV2 and LAUTx" />
+    </figure>
+
+    <!-- ── Table 2: Efficiency ───────────────────────────────────────────── -->
+    <h3 class="title is-4 has-text-centered" style="margin-top:3rem;">Model Size &amp; Inference Efficiency</h3>
+    <p class="table-caption">
+      GPU wall-clock time (ms) per scene for a <em>k</em>-click session on the FOR-instanceV2 test set.
+    </p>
+    <figure class="image table-fig">
+      <img src="static/images/Table-2.png" style="width:95%; margin:0 auto;"
+           alt="Model size and inference efficiency comparison" />
+    </figure>
+
+    <!-- ── Qualitative: single-click comparison ──────────────────────────── -->
+    <h3 class="title is-4 has-text-centered" style="margin-top:3rem;">Qualitative Results</h3>
+    <p class="table-caption">
+      Single-click segmentation compared against promptable baselines on the same target tree.
+    </p>
+    <figure class="image qual-fig">
+      <img src="static/images/Figure-Single_click_compare.png" style="width:100%; margin:0 auto;"
+           alt="Single-click segmentation qualitative comparison against baselines" />
+    </figure>
+
+  </div>
+</section>
+
+
+<!-- ─── BIBTEX ─────────────────────────────────────────────────────────────── -->
+<section class="section" id="BibTeX" style="background-color:#f5f5f5;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre class="bibtex-block"><code>@article{nguyen2026selectanytree,
+  title   = {SelectAnyTree: A Promptable Instance Segmentation Model for 3D Forest {LiDAR} Point Clouds},
+  author  = {Nguyen, Trung Thanh and Lusk, Daniel and Gerberding, Kilian and Vajna-Jehle, Janusch and Vu, Tuan-Anh and Le, Duc Viet and Vo, Tu and Nguyen, Phi Le and Kawanishi, Yasutomo and Komamizu, Takahiro and Ide, Ichiro and Frey, Julian and Kattenborn, Teja},
+  journal = {arXiv preprint arXiv:2606.27491},
+  year    = {2026}
+}</code></pre>
+  </div>
+</section>
+
+
+<!-- ─── FOOTER ────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      Page template adapted from
+      <a href="https://github.com/zero-pima/zero-pima.github.io">Zero-PIMA</a>
+      (CC BY-SA 4.0).
+      SelectAnyTree is released under CC BY-NC 4.0.
+    </p>
+  </div>
+</footer>
+
+<script src="static/js/index.js"></script>
+</body>
+</html>

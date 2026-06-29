@@ -1,0 +1,247 @@
+/* ── Typography ─────────────────────────────────────────────────────────── */
+body { font-family: 'Noto Sans', sans-serif; }
+
+.publication-title {
+  font-family: 'Google Sans', sans-serif;
+  font-weight: 700;
+}
+.publication-subtitle {
+  font-family: 'Google Sans', sans-serif;
+  font-weight: 400;
+  color: #555;
+}
+.publication-authors {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-top: 1rem;
+  color: #222;
+}
+.publication-authors .author-block a { color: #2d6a4f; text-decoration: none; }
+.publication-authors .author-block a:hover { text-decoration: underline; }
+.affil-block {
+  margin-top: 0.75rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid #d0e8d8;
+  color: #555;
+  font-size: 0.88rem;
+  line-height: 1.75;
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────────── */
+.hero { background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%); }
+.hero.teaser { background: #111; }
+.hero.teaser .hero-body { padding-top: 1.5rem; padding-bottom: 2.5rem; }
+.hero.teaser .subtitle { color: #ccc; font-size: 1rem; }
+
+/* ── Publication link buttons ───────────────────────────────────────────── */
+.publication-links .button {
+  margin: 0.3rem;
+  background-color: #2d6a4f;
+  border-color: transparent;
+  font-size: 0.92rem;
+}
+.publication-links .button:hover { background-color: #1b4332; }
+
+/* ── Teaser figure ──────────────────────────────────────────────────────── */
+.teaser-fig {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.teaser-fig img { width: 100%; display: block; }
+
+/* ── Placeholder boxes ──────────────────────────────────────────────────── */
+.placeholder-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  background: #f0f0f0;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  color: #888;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* ── Demo GIFs ──────────────────────────────────────────────────────────── */
+.demo-gif-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 16px rgba(0,0,0,0.2);
+  background: #0d1a0d;
+  margin: 0 auto;
+}
+.demo-gif-wrap img { width: 100%; display: block; }
+
+/* method labels above comparison GIFs */
+.demo-method-label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.ours-label { color: #2d6a4f; }
+.ours-border { box-shadow: 0 0 0 3px #2d6a4f, 0 3px 16px rgba(0,0,0,0.25); }
+
+/* equal-height side-by-side pairs (single-scene + comparison) — full frame, no crop */
+.demo-gif-pair { align-items: stretch; }
+.demo-gif-pair .demo-gif-wrap {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.demo-gif-pair .demo-gif-wrap img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  background: #0d1a0d;
+}
+
+.demo-compare-wrap { max-width: 780px; }
+
+.click-legend .tag { margin: 0 3px; font-size: 0.8rem; }
+
+/* ── Method figure ──────────────────────────────────────────────────────── */
+.method-fig {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  background: #fff;
+  padding: 1rem;
+}
+.method-fig img { width: 100%; display: block; }
+
+/* ── Result stats ───────────────────────────────────────────────────────── */
+.result-stat { padding: 1.2rem 0.6rem; }
+.result-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d6a4f;
+  font-family: 'Google Sans', sans-serif;
+  line-height: 1;
+}
+.result-label { display: block; font-size: 0.78rem; color: #666; margin-top: 0.35rem; }
+
+/* ── Table / qualitative images ─────────────────────────────────────────── */
+.table-fig {
+  margin: 0 auto;
+  max-width: 960px;
+}
+.table-fig img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+}
+.qual-fig {
+  margin: 1rem auto 0;
+  max-width: 900px;
+  background: #fff;
+  padding: 0.75rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+.qual-fig img { width: 100%; display: block; }
+
+/* ── Table captions ─────────────────────────────────────────────────────── */
+.table-caption {
+  font-size: 0.88rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+}
+
+/* ── Results tables ─────────────────────────────────────────────────────── */
+.results-table { font-size: 0.88rem; }
+
+/* best = bold dark green, second best = subtle green underline */
+.results-table tbody b { color: #1b4332; font-weight: 700; }
+.results-table tbody u {
+  text-decoration-color: #74c69d;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* group separators (interactive table only): light between IoU|NoC, bold before cross-dataset */
+.results-table:not(.efficiency-table) td:nth-child(5),
+.results-table:not(.efficiency-table) td:nth-child(11) { border-left: 1px solid #e6e6e6; }
+.results-table:not(.efficiency-table) td:nth-child(8) { border-left: 2px solid #b7e4c7; }
+
+/* row headers */
+.results-table thead .section-head {
+  background-color: #2d6a4f;
+  color: #fff;
+  border: none;
+  font-size: 0.85rem;
+}
+.results-table thead .section-head-alt {
+  background-color: #2d6a4f;
+}
+.results-table thead .sub-head {
+  background-color: #52b788;
+  color: #fff;
+  border: none;
+  font-size: 0.82rem;
+}
+.results-table thead .sub-head-alt {
+  background-color: #52b788;
+}
+.results-table thead .col-head {
+  background-color: #b7e4c7;
+  color: #1b4332;
+  border: none;
+  font-size: 0.82rem;
+}
+.results-table thead .col-head-alt {
+  background-color: #b7e4c7;
+}
+
+/* Efficiency table shares the exact same header classes as the interactive
+   table (.section-head dark-green top row + .col-head light-green leaf row),
+   so both table headers look identical. */
+
+/* Cross-dataset columns — faint tint */
+.results-table td.alt-col {
+  background-color: #f6fff8;
+}
+
+/* Ours row */
+.ours-row td { background-color: #d8f3dc !important; }
+.ours-row td.alt-col { background-color: #b7e4c7 !important; }
+
+/* Ablation row */
+.ablation-row td { background-color: #f9f9f9 !important; color: #555; }
+.ablation-row td.alt-col { background-color: #f4fdf6 !important; }
+
+/* Citation links */
+.cite-link {
+  color: #2d6a4f;
+  font-size: 0.78em;
+  margin-left: 3px;
+  opacity: 0.8;
+}
+.cite-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── BibTeX ─────────────────────────────────────────────────────────────── */
+.bibtex-block {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  font-size: 0.78rem;
+  overflow-x: auto;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .result-number { font-size: 1.9rem; }
+  .results-table { font-size: 0.78rem; }
+  .demo-compare-wrap { max-width: 100%; }
+}
