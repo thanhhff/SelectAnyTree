@@ -347,13 +347,21 @@ if __name__ == "__main__":
     unify_gif_sizes([f"{OUT}/demo_nibio.gif", f"{OUT}/demo_bluecat.gif",
                      f"{OUT}/demo_culs.gif", f"{OUT}/demo_scion.gif"])
 
-    # Scene with the clearest single-click advantage for SelectAnyTree:
-    # SAT 0.97 IoU @ 1 click vs Point-SAM 0.46, and SAT stays best at the end.
-    make_compare_gif(
-        f"{DUMPS}/selectanytree/NIBIO_NIBIO_plot_16_annotated_val.npz",
-        f"{DUMPS}/pointsam/NIBIO_NIBIO_plot_16_annotated_val.npz",
-        f"{OUT}/demo_compare.gif", tree_idx=0,
-        label_sat="SelectAnyTree (Ours)", label_base="Point-SAM"
+    # Point-SAM vs. SelectAnyTree — two side-by-side GIFs in the SAME style as the
+    # single-scene demos above (top-down + side, click-by-click). Scene chosen for
+    # the clearest single-click gap: SAT ~0.97 @ 1 click vs Point-SAM ~0.46.
+    COMPARE = "NIBIO_NIBIO_plot_16_annotated_val.npz"
+    make_scene_gif(
+        f"{DUMPS}/pointsam/{COMPARE}",
+        f"{OUT}/demo_pointsam.gif", tree_idx=0,
+        label="Point-SAM", spine_color="#8b1a1a"
     )
+    make_scene_gif(
+        f"{DUMPS}/selectanytree/{COMPARE}",
+        f"{OUT}/demo_sat_compare.gif", tree_idx=0,
+        label="SelectAnyTree", spine_color="#2d6a4f"
+    )
+    # Match pixel sizes so the two panels align side-by-side in the page.
+    unify_gif_sizes([f"{OUT}/demo_pointsam.gif", f"{OUT}/demo_sat_compare.gif"])
 
     print("Done.")
