@@ -213,9 +213,11 @@ def _seek_all(im):
         yield i
 
 
-def save_gif(frames, out_path, fps=1.0, hold_last=3):
-    tick_ms = int(1000 / fps)
-    duration = [tick_ms * 3] + [tick_ms] * (len(frames) - 1 - hold_last) + [tick_ms * 3] * hold_last
+def save_gif(frames, out_path, fps=1.0, hold_last=1):
+    tick_ms  = int(1000 / fps)   # per-click frame duration
+    base_ms  = 300               # brief pause on the base (no-seg) frame
+    last_ms  = 1500              # hold the final result so viewers can read it
+    duration = [base_ms] + [tick_ms] * (len(frames) - 1 - hold_last) + [last_ms] * hold_last
     duration = duration[:len(frames)]
     while len(duration) < len(frames):
         duration.append(tick_ms)
@@ -246,10 +248,10 @@ def make_scene_gif(npz_sat, out_path, tree_idx=0, fps=1.7, margin=6.0,
     K      = preds.shape[0]
 
     frames = []
-    # base frame — single-scene demo, no method name needed (it is not a comparison)
-    frames.extend([render_frame_both_views(
+    # single base frame — duration controlled by save_gif (base_ms = 500ms)
+    frames.append(render_frame_both_views(
         pts_c, gt_c, None, [], stride, "Input scene", xlim, ylim, zylim,
-        None, spine_color)] * 3)
+        None, spine_color))
 
     for k in range(1, K + 1):
         shown   = [c for c in clks if len(c) >= 5 and int(c[4]) <= k]
@@ -259,7 +261,6 @@ def make_scene_gif(npz_sat, out_path, tree_idx=0, fps=1.7, margin=6.0,
             f"{k} click(s)", xlim, ylim, zylim,
             iou_val, spine_color))
 
-    frames.extend([frames[-1]] * 2)
     save_gif(frames, out_path, fps)
 
 
@@ -319,7 +320,6 @@ def make_compare_gif(npz_sat, npz_base, out_path, tree_idx=0, fps=1.7, margin=6.
         combo.paste(fi_s, (0, H + 4))
         frames.append(combo)
 
-    frames.extend([frames[-1]] * 3)
     save_gif(frames, out_path, fps)
 
 
