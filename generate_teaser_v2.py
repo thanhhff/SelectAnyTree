@@ -45,11 +45,14 @@ C_FN = np.array([0.20, 0.48, 0.95, 0.95])
 
 DPI              = 95
 FRAMES_PER_CLICK = 10        # frames spent at each click step (× K clicks = total)
-ELEV             = 20
+# Camera elevation sweeps from side-on up to near top-down and back over the
+# loop, so a single rotation reveals BOTH the side view and the top-down view.
+ELEV_LO          = 12        # side-on
+ELEV_HI          = 82        # near top-down
 PANEL_IN    = 3.3        # inches per panel
 FIG_H       = 3.6
-BG_COLOR    = "#0c140c"
-BG_RGB      = (12, 20, 12)
+BG_COLOR    = "#0d1a0d"      # match generate_demo_gifs.py
+BG_RGB      = (13, 26, 13)
 OVERVIEW_PTS = 130_000
 TREE_PTS     = 55_000
 
@@ -92,7 +95,7 @@ def _draw_clicks(ax, clks):
                        zorder=10, depthshade=False)
 
 
-def _style_3d(ax, lim3, azim, elev, title, title_color, zoom=1.0):
+def _style_3d(ax, lim3, azim, elev, zoom=1.0):
     (xl, yl, zl) = lim3
     ax.set_xlim(*xl); ax.set_ylim(*yl); ax.set_zlim(*zl)
     # Box proportions follow the DATA ranges (not a cube) so a tall, thin tree
@@ -109,7 +112,6 @@ def _style_3d(ax, lim3, azim, elev, title, title_color, zoom=1.0):
     ax.yaxis.pane.set_visible(False)
     ax.zaxis.pane.set_visible(False)
     ax.grid(False)
-    ax.set_title(title, color=title_color, fontsize=10, fontweight="bold", pad=0)
 
 
 def _data_lims(pts_xyz, pad_frac=0.06, floor=0.4):
@@ -193,6 +195,8 @@ def make_teaser_v2(npz_path, out_path, frames_per_click=FRAMES_PER_CLICK,
     for i, azim in enumerate(azimuths):
         k = i // frames_per_click + 1            # current click step 1..K
         k = min(k, K)
+        # elevation sweeps LO → HI → LO over the loop (seamless): side → top → side
+        elev = ELEV_LO + (ELEV_HI - ELEV_LO) * 0.5 * (1 - np.cos(2*np.pi * i / n_frames))
 
         fig = plt.figure(figsize=(figw, FIG_H), facecolor=BG_COLOR)
 
@@ -209,9 +213,9 @@ def make_teaser_v2(npz_path, out_path, frames_per_click=FRAMES_PER_CLICK,
         ax0.scatter(P_ov[:, 0], P_ov[:, 1], P_ov[:, 2], c=col_ov,
                     s=0.4, linewidths=0, rasterized=True, depthshade=False)
         _draw_clicks(ax0, ov_clicks)
-        _style_3d(ax0, ov_lim, azim, ELEV,
-                  f"Scene — all trees ({k} click{'s' if k>1 else ''})",
-                  "#e1f5e1", zoom=1.05)
+        _style_3d(ax0, ov_lim, azim, elev, zoom=1.0)
+        panel_titles = [(f"Scene — all trees ({k} click{'s' if k>1 else ''})",
+                         "#e1f5e1")]
 
         # per-tree — prediction / clicks / IoU at click k
         for ti, td in enumerate(tree_data):
@@ -225,11 +229,20 @@ def make_teaser_v2(npz_path, out_path, frames_per_click=FRAMES_PER_CLICK,
                        s=0.5, linewidths=0, rasterized=True, depthshade=False)
             _draw_clicks(ax, clks)
             title = f"Tree {ti+1} · IoU={td['iou_k'][k-1]:.2f} @ {k} click{'s' if k>1 else ''}"
-            _style_3d(ax, td["lim"], azim, ELEV, title, td["tcolor"], zoom=1.1)
+            _style_3d(ax, td["lim"], azim, elev, zoom=1.05)
+            panel_titles.append((title, td["tcolor"]))
 
-        # (no legend — the demo section on the page already provides one)
-        fig.subplots_adjust(left=0.005, right=0.995, top=0.93, bottom=0.01,
-                            wspace=0.02)
+        # ── titles in a reserved top band (figure-level → never overlap points)
+        L, R = 0.005, 0.995
+        span = R - L
+        for j, (txt, color) in enumerate(panel_titles):
+            cx = L + span * (j + 0.5) / n_panels
+            fig.text(cx, 0.92, txt, color=color, fontsize=13, fontweight="bold",
+                     ha="center", va="center")
+
+        # Push the axes (point cloud) down so even the tallest treetops + click
+        # markers stay well below the title band — no overlap at any rotation.
+        fig.subplots_adjust(left=L, right=R, top=0.82, bottom=0.01, wspace=0.02)
         buf = io.BytesIO()
         fig.savefig(buf, format="png", dpi=DPI, facecolor=BG_COLOR)
         buf.seek(0)
@@ -237,8 +250,8 @@ def make_teaser_v2(npz_path, out_path, frames_per_click=FRAMES_PER_CLICK,
         buf.close()
         plt.close(fig)
 
-        # brief pause on the first frame of each new click step
-        durations.append(650 if (i % frames_per_click == 0) else 130)
+        # uniform frame time → smooth, continuous rotation (no per-click stutter)
+        durations.append(130)
 
     W = max(f.size[0] for f in frames)
     H = max(f.size[1] for f in frames)
