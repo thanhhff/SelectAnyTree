@@ -37,6 +37,7 @@
   <link rel="apple-touch-icon" href="static/images/favicon-180.png" />
 
   <!-- Preload demo GIFs so they are ready before the user scrolls to them -->
+  <link rel="preload" href="static/images/demo_360.gif"      as="image" />
   <link rel="preload" href="static/images/demo_nibio.gif"    as="image" />
   <link rel="preload" href="static/images/demo_bluecat.gif"  as="image" />
   <link rel="preload" href="static/images/demo_culs.gif"     as="image" />
@@ -208,6 +209,18 @@
       <span class="legend-item"><span class="legend-dot" style="background:#2db845;"></span> True positive</span>
       <span class="legend-item"><span class="legend-dot" style="background:#dc3535;"></span> False positive</span>
       <span class="legend-item"><span class="legend-dot" style="background:#3371df;"></span> False negative</span>
+    </div>
+
+    <!-- 360° turntable: full scene + per-tree, clicks 1→5 -->
+    <div style="margin-bottom:3rem;">
+      <h3 class="title is-5 has-text-centered">360° view — select any tree, click by click</h3>
+      <p class="has-text-centered has-text-grey" style="margin-bottom:1rem;">
+        Left: the whole plot with every tree segmented. Right: each tree, rotating, as prompts accumulate from 1 to 5 clicks.
+      </p>
+      <figure class="demo-gif-wrap demo-360-wrap">
+        <img src="static/images/demo_360.gif"
+             alt="SelectAnyTree — 360° rotating view of the scene and each segmented tree as clicks accumulate" />
+      </figure>
     </div>
 
     <!-- Single-scene GIFs -->
