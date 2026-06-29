@@ -16,9 +16,9 @@
   <meta property="og:type"        content="website" />
   <meta property="og:title"       content="SelectAnyTree — Promptable 3D Forest Tree Segmentation" />
   <meta property="og:description" content="Click any point in a 3D forest LiDAR scan → SelectAnyTree segments that individual tree instantly. 78.2 IoU from a single click, 16× smaller than Point-SAM. arXiv 2606.27491." />
-  <meta property="og:image"       content="static/images/teaser.png" />
-  <meta property="og:image:width"  content="1500" />
-  <meta property="og:image:height" content="760" />
+  <meta property="og:image"       content="static/images/teaser_360.png" />
+  <meta property="og:image:width"  content="1254" />
+  <meta property="og:image:height" content="342" />
   <meta property="og:url"         content="https://thanhhff.github.io/SelectAnyTree/" />
   <meta property="og:site_name"   content="SelectAnyTree" />
 
@@ -26,7 +26,7 @@
   <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:title"       content="SelectAnyTree — Promptable 3D Forest Tree Segmentation" />
   <meta name="twitter:description" content="Click any point in a 3D forest LiDAR scan → SelectAnyTree segments that individual tree instantly. 78.2 IoU from a single click. arXiv 2606.27491." />
-  <meta name="twitter:image"       content="static/images/teaser.png" />
+  <meta name="twitter:image"       content="static/images/teaser_360.png" />
 
   <!-- Favicon ────────────────────────────────────────────────────────────── -->
   <!-- SVG is the primary favicon (renders the 🌲 emoji natively in modern browsers) -->
@@ -137,13 +137,13 @@
   <div class="container is-max-widescreen">
     <div class="hero-body">
       <figure class="teaser-fig">
-        <img src="static/images/teaser.png"
-             alt="SelectAnyTree teaser — scene overview with three selected trees, top-down and side view" />
+        <img src="static/images/demo_360.gif"
+             alt="SelectAnyTree teaser — rotating 3D scene with three trees segmented click-by-click, top-down and side views" />
       </figure>
       <h2 class="subtitle has-text-centered" style="margin-top:1.2rem;">
         <b>SelectAnyTree</b> segments any individual tree in a 3D forest LiDAR scan with a user's click.
-        Left: full scene overview with three highlighted trees.
-        Right: zoom panels showing predicted masks.
+        Left: the full scene with every tree segmented. Right: each tree, rotating through
+        top-down and side views as prompts accumulate from 1 to 5 clicks.
         The scene is encoded <em>once</em>; each subsequent click is a cheap query.
       </h2>
     </div>
@@ -211,17 +211,7 @@
       <span class="legend-item"><span class="legend-dot" style="background:#3371df;"></span> False negative</span>
     </div>
 
-    <!-- 360° turntable: full scene + per-tree, clicks 1→5 -->
-    <div style="margin-bottom:3rem;">
-      <h3 class="title is-5 has-text-centered">360° view — select any tree, click by click</h3>
-      <p class="has-text-centered has-text-grey" style="margin-bottom:1rem;">
-        Left: the whole plot with every tree segmented. Right: each tree, rotating, as prompts accumulate from 1 to 5 clicks.
-      </p>
-      <figure class="demo-gif-wrap demo-360-wrap">
-        <img src="static/images/demo_360.gif"
-             alt="SelectAnyTree — 360° rotating view of the scene and each segmented tree as clicks accumulate" />
-      </figure>
-    </div>
+    <!-- (The 360° turntable now lives in the hero at the top of the page.) -->
 
     <!-- Single-scene GIFs -->
     <div class="columns is-centered demo-gif-pair">
