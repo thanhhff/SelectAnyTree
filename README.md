@@ -1,9 +1,8 @@
 # 🌲 SelectAnyTree
-
 ### A Promptable Instance Segmentation Model for 3D Forest LiDAR Point Clouds
 
 ![Status](https://img.shields.io/badge/status-pre--release-orange)
-![Paper](https://img.shields.io/badge/paper-coming%20soon-lightgrey)
+[![Paper](https://img.shields.io/badge/paper-arXiv%3A2606.27491-b31b1b)](https://arxiv.org/abs/2606.27491)
 ![Code](https://img.shields.io/badge/code-coming%20soon-lightgrey)
 ![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-blue)
 
@@ -16,16 +15,20 @@ reused across all prompts, so many trees can be selected interactively without
 recomputing features.
 
 > [!NOTE]
-> 🚧 **This is a pre-release.** The source code, pretrained checkpoint, and
-> interactive web demo will be released soon. ⭐ Star and watch this repo to be
-> notified.
+> 📄 **The paper is now available on arXiv:** [2606.27491](https://arxiv.org/abs/2606.27491).
+> 🚧 Source code, pretrained checkpoint, and the interactive web demo are still
+> coming soon. ⭐ Star and watch this repo to be notified.
+
+## 🧠 Abstract
+
+Automated instance segmentation of forest LiDAR point clouds is increasingly critical as forest monitoring moves toward scalable, detailed, 3D measurement, but progress is constrained by label scarcity for tree instances — a single hectare can hold millions of points and hundreds of overlapping crowns, making manual annotation laborious and error-prone. Existing pre-segmentation tools offer no interactive or AI-assisted refinement. Inspired by promptable foundation segmentation models, SelectAnyTree delineates any individual tree in a 3D forest point cloud from a few clicks, converting each click into a decoder query that fuses its 3D position, polarity, and local backbone feature, and using the CHM treetop as a geometry-guided prompt. Evaluated across seven diverse forest regions plus an independent held-out test set, it segments a target tree to **78.2 IoU from a single click** — 24.8 points above the strongest promptable baseline — reaching every accuracy target with the fewest clicks, while using far fewer parameters and less inference time than prior promptable models.
 
 ## 📦 Release checklist
 
+- 🌲 **[2026/06]** Paper
 - [ ] Source code
 - [ ] Pretrained checkpoint
 - [ ] Interactive web demo
-- [ ] Paper
 
 ## 📚 Citation
 
@@ -38,6 +41,7 @@ If you find SelectAnyTree useful in your research, please consider citing:
              Vajna-Jehle, Janusch and Vu, Tuan-Anh and Le, Duc Viet and Vo, Tu and
              Nguyen, Phi Le and Kawanishi, Yasutomo and Komamizu, Takahiro and
              Ide, Ichiro and Frey, Julian and Kattenborn, Teja},
+  journal = {arXiv preprint arXiv:2606.27491},
   year    = {2026}
 }
 ```
